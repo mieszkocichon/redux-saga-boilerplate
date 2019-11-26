@@ -1,7 +1,7 @@
 /*eslint-disable no-unused-vars */
 import React, { Component, PropTypes } from 'react'
 
-const Counter = ({ value, onIncrement, onDecrement, onIncrementAsync }) =>
+const Counter = ({ state, onIncrement, onDecrement, onIncrementAsync }) =>
       <div>
         <button onClick={onIncrementAsync}>
           Increment after 1 second
@@ -14,14 +14,14 @@ const Counter = ({ value, onIncrement, onDecrement, onIncrementAsync }) =>
         <button onClick={onDecrement}>
           Decrement
         </button>
-        <hr />
+        <p></p>
         <div>
-          Clicked: {value} times
+          Clicked: {state.reducerCounter.counter.value} times
         </div>
       </div>
 
 Counter.propTypes = {
-  value: PropTypes.number.isRequired,
+  state: PropTypes.object.isRequired,
   onIncrement: PropTypes.func.isRequired,
   onDecrement: PropTypes.func.isRequired,
   onIncrementAsync: PropTypes.func.isRequired,
