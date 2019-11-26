@@ -7,8 +7,8 @@ export function* incrementAsync() {
     yield put({ type: 'INCREMENT' })
 }
 
-export function* helloSaga() {
-    console.log('Hello sagas!')
+export function* welcomeSaga() {
+    console.log('Welcome!')
 }
 
 export function* watchIncrementAsync() {
@@ -17,7 +17,7 @@ export function* watchIncrementAsync() {
 
 export default function* rootSaga() {
     yield([
-        helloSaga(),
+        welcomeSaga(),
         watchIncrementAsync()
     ])
 }

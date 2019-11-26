@@ -8,17 +8,19 @@ import { createStore, applyMiddleware } from 'redux'
 
 import Counter from './Counter'
 import reducer from './reducers'
-import { helloSaga } from './sagas';
+import { welcomeSaga, watchIncrementAsync } from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(sagaMiddleware)  
 )
-sagaMiddleware.run(helloSaga)
+sagaMiddleware.run(welcomeSaga)
+sagaMiddleware.run(watchIncrementAsync)
 
-const action = type => store.dispatch({type})
+const action = type => store.dispatch({ type })
 
 function render() {
   ReactDOM.render(
