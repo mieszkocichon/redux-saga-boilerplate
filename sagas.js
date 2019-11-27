@@ -30,6 +30,12 @@ export function* watchFetchUsers() {
     yield takeLatest('USER_FETCH_REQUESTED', fetchUsers)
 }
 
+export function* watchAndLog() {
+    yield takeEvery('*', function* logger(action) {
+        console.log('action', action)
+    })
+}
+
 export default function* rootSaga() {
     yield([
         welcomeSaga(),

@@ -10,7 +10,7 @@ import Counter from './Counter'
 import User from './User'
 import reducerCounter from './reducersCounter'
 import reducerUser from './reducersUser'
-import { welcomeSaga, watchIncrementAsync, watchFetchUsers } from './sagas';
+import { welcomeSaga, watchIncrementAsync, watchFetchUsers, watchAndLog } from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -27,6 +27,7 @@ const store = createStore(
 sagaMiddleware.run(welcomeSaga)
 sagaMiddleware.run(watchIncrementAsync)
 sagaMiddleware.run(watchFetchUsers)
+sagaMiddleware.run(watchAndLog)
 
 const action = type => store.dispatch({ type })
 
