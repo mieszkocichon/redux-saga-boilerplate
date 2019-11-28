@@ -5,7 +5,7 @@ const initialUserState = {
 }
 
 export default function user(state = initialUserState, action) {
-  const newState = state;
+  const newState = state
 
   switch (action.type) {
     case 'USERS_RECEIVED':

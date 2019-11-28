@@ -8,15 +8,24 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 
 import Counter from './Counter'
 import User from './User'
+import Login from './Login'
 import reducerCounter from './reducersCounter'
 import reducerUser from './reducersUser'
-import { welcomeSaga, watchIncrementAsync, watchFetchUsers, watchAndLog } from './sagas';
+import reducerLogin from './reducersLogin'
+import { 
+  welcomeSaga, 
+  watchIncrementAsync, 
+  watchFetchUsers, 
+  watchAndLog, 
+  loginFlow 
+} from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   reducerCounter,
   reducerUser,
+  reducerLogin,
 })
 
 const store = createStore(
@@ -28,8 +37,9 @@ sagaMiddleware.run(welcomeSaga)
 sagaMiddleware.run(watchIncrementAsync)
 sagaMiddleware.run(watchFetchUsers)
 sagaMiddleware.run(watchAndLog)
+sagaMiddleware.run(loginFlow)
 
-const action = type => store.dispatch({ type })
+const action = (type, data) => store.dispatch({ type, data })
 
 function render() {
 
@@ -46,6 +56,14 @@ function render() {
       <User 
         state={store.getState()}
         onFetch={() => action('USER_FETCH_REQUESTED')}
+      />
+
+      <hr />
+
+      <Login
+        state={store.getState()}
+        onLogin={(user, password) => action('LOGIN_REQUEST', { user, password } )}
+        onLogout={() => action('LOGOUT')}
       />
     </div>,
     document.getElementById('root')

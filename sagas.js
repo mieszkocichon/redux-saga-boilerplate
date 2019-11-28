@@ -1,5 +1,5 @@
-import { put, call, takeEvery, takeLatest } from 'redux-saga/effects'
-import { fetch } from './API'
+import { put, call, takeEvery, takeLatest, take, fork, cancelled, cancel} from 'redux-saga/effects'
+import { fetch, authorizeUser, storeItem, clearItem } from './API'
 
 export const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
@@ -36,6 +36,38 @@ export function* watchAndLog() {
     })
 }
 
+export function* authorize(user, password) {
+    try {
+        const token = yield call(authorizeUser, user, password)
+        yield put({ type: 'LOGIN_SUCCESS', token })
+        yield call(storeItem, { token })
+        return token
+    }
+    catch (error) {
+        yield put({ type: 'LOGIN_ERROR', error})
+    }
+    finally {
+        if (yield cancelled()) {
+
+        }
+    }
+}
+
+export function* loginFlow() {
+    while (true) {
+        const { data } = yield take('LOGIN_REQUEST')
+
+        const { user, password } = data;
+
+        const task = yield fork(authorize, user, password)
+        const action = yield take(['LOGOUT', 'LOGIN_ERROR'])
+        if (action.type === 'LOGOUT') {
+            yield cancel(task)
+        }
+        yield call(clearItem, 'token')
+    }
+}
+
 export default function* rootSaga() {
     yield([
         welcomeSaga(),
@@ -47,6 +79,10 @@ export default function* rootSaga() {
          * * Fetch users
          */
         fetchUsers(),
-        watchFetchUsers()
+        watchFetchUsers(),
+        /**
+         * * Login
+         */
+        loginFlow(),
     ])
 }
