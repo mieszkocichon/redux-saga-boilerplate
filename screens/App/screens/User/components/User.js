@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const User = ({ state, onFetch }) =>
     <div>
@@ -11,7 +12,7 @@ const User = ({ state, onFetch }) =>
         </div>
     </div>
 
-User.PropTypes = {
+User.propTypes = {
     state: PropTypes.object.isRequired,
     onFetch: PropTypes.func.isRequired
 }

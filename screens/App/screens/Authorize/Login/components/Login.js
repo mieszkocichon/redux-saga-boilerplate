@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const Login = ({ state, onLogin, onLogout }) => {
   function handleSubmit(event) {
@@ -45,7 +46,7 @@ const Login = ({ state, onLogin, onLogout }) => {
   )
 }
 
-Login.PropTypes = {
+Login.propTypes = {
   state: PropTypes.object.isRequired,
   onLogin: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired

@@ -1,5 +1,5 @@
 import { put, call, takeEvery, takeLatest, take, fork, cancelled, cancel} from 'redux-saga/effects'
-import { fetch, authorizeUser, storeItem, clearItem } from './API'
+import { fetch, authorizeUser, storeItem, clearItem } from '../../../API'
 
 export const delay = (ms) => new Promise(res => setTimeout(res, ms))
 

@@ -6,19 +6,20 @@ import createSagaMiddleware from 'redux-saga'
 
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 
-import Counter from './Counter'
-import User from './User'
-import Login from './Login'
-import reducerCounter from './reducersCounter'
-import reducerUser from './reducersUser'
-import reducerLogin from './reducersLogin'
+import reducerCounter from './shared/state/reducers/Counter/reducersCounter'
+import reducerUser from './shared/state/reducers/User/reducersUser'
+import reducerLogin from './shared/state/reducers/Login/reducersLogin'
 import { 
   welcomeSaga, 
   watchIncrementAsync, 
   watchFetchUsers, 
   watchAndLog, 
   loginFlow 
-} from './sagas';
+} from './shared/state/sagas/sagas';
+
+import Login from './screens/App/screens/Authorize/Login/components/Login'
+import User from './screens/App/screens/User/components/User'
+import Counter from './screens/App/screens/Counter/components/Counter'
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -28,10 +29,11 @@ const rootReducer = combineReducers({
   reducerLogin,
 })
 
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(sagaMiddleware),
+  composeEnhancer(applyMiddleware(sagaMiddleware)),
 )
 sagaMiddleware.run(welcomeSaga)
 sagaMiddleware.run(watchIncrementAsync)
@@ -39,7 +41,7 @@ sagaMiddleware.run(watchFetchUsers)
 sagaMiddleware.run(watchAndLog)
 sagaMiddleware.run(loginFlow)
 
-const action = (type, data) => store.dispatch({ type, data })
+const action = (type, data = {}) => store.dispatch({ type, data })
 
 function render() {
 
