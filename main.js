@@ -17,9 +17,18 @@ import {
   loginFlow 
 } from './shared/state/sagas/sagas';
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink
+} from "react-router-dom";
+
 import Login from './screens/App/screens/Authorize/Login/components/Login'
 import User from './screens/App/screens/User/components/User'
 import Counter from './screens/App/screens/Counter/components/Counter'
+
+import PrivateRoute from './shared/auth/screens/Auth/components/PrivateRoute'
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -46,28 +55,51 @@ const action = (type, data = {}) => store.dispatch({ type, data })
 function render() {
 
   ReactDOM.render(
-    <div>
-      <Counter
-        state={store.getState()}
-        onIncrement={() => action('INCREMENT')}
-        onDecrement={() => action('DECREMENT')} 
-        onIncrementAsync={() => action('INCREMENT_ASYNC')} />
+    <Router>
+      <Switch>
+        <PrivateRoute state={store.getState()} path="/counter">
+          <Counter
+            state={store.getState()}
+            onIncrement={() => action('INCREMENT')}
+            onDecrement={() => action('DECREMENT')} 
+            onIncrementAsync={() => action('INCREMENT_ASYNC')} />
+        </PrivateRoute>
 
-      <hr />
+        <PrivateRoute state={store.getState()} path="/user">
+          <User 
+            state={store.getState()}
+            onFetch={() => action('USER_FETCH_REQUESTED')}
+          />
+        </PrivateRoute>
 
-      <User 
-        state={store.getState()}
-        onFetch={() => action('USER_FETCH_REQUESTED')}
-      />
+        <Route path="/login">
+          <Login
+            state={store.getState()}
+            onLogin={(user, password) => action('LOGIN_REQUEST', { user, password } )}
+            onLogout={() => action('LOGOUT')}
+            />
+        </Route>
 
-      <hr />
+        <Route path="/">
 
-      <Login
-        state={store.getState()}
-        onLogin={(user, password) => action('LOGIN_REQUEST', { user, password } )}
-        onLogout={() => action('LOGOUT')}
-      />
-    </div>,
+          <NavLink to="/login">
+            Login
+          </NavLink>
+
+          &nbsp;
+
+          <NavLink to="/counter">
+            Counter
+          </NavLink>
+
+          &nbsp;
+          
+          <NavLink to="/user">
+            User
+          </NavLink>
+        </Route>
+      </Switch>
+    </Router>,
     document.getElementById('root')
   )
 }
