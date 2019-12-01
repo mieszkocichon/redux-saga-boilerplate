@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min'
 
 const User = ({ state, onFetch }) =>
     <div>
+        <NavLink to="/">home</NavLink>
         <button onClick={onFetch}>
             Fetch user
         </button>

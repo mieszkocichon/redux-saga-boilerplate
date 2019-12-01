@@ -6,22 +6,26 @@ import {
   Redirect
 } from "react-router-dom";
 
-const PrivateRoute = ({ state, children, ...rest }) => 
-  <Route
+const PrivateRoute = ({ state, children, ...rest }) => {
+
+  console.log("=", state.reducerLogin.login.name)
+
+  return(<Route
     {...rest}
     render={({ location }) =>
-    state.reducerLogin.login.name ? (
+    state.reducerLogin.login.name != "" ? (
       children
     ) : (
         <Redirect
-        to={{
-          pathname: "/login",
-          state: { from: location }
-        }}
+          to={{
+            pathname: "/login",
+            state: { from: location }
+          }}
         />
       )
     }
-  />
+  />)
+}
 
 PrivateRoute.propTypes = {
     state: PropTypes.object.isRequired,
