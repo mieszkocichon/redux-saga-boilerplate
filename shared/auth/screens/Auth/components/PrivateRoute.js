@@ -6,11 +6,8 @@ import {
   Redirect
 } from "react-router-dom";
 
-const PrivateRoute = ({ state, children, ...rest }) => {
-
-  console.log("=", state.reducerLogin.login.name)
-
-  return(<Route
+const PrivateRoute = ({ state, children, ...rest }) =>
+  <Route
     {...rest}
     render={({ location }) =>
     state.reducerLogin.login.name != "" ? (
@@ -24,8 +21,7 @@ const PrivateRoute = ({ state, children, ...rest }) => {
         />
       )
     }
-  />)
-}
+  />
 
 PrivateRoute.propTypes = {
     state: PropTypes.object.isRequired,

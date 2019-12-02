@@ -6,9 +6,9 @@ import createSagaMiddleware from 'redux-saga'
 
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 
-import reducerCounter from './shared/state/reducers/Counter/reducersCounter'
-import reducerUser from './shared/state/reducers/User/reducersUser'
-import reducerLogin from './shared/state/reducers/Login/reducersLogin'
+import reducerCounter from './shared/state/reducers/Counter'
+import reducerUser from './shared/state/reducers/User'
+import reducerLogin from './shared/state/reducers/Login'
 import { 
   welcomeSaga,
   watchIncrementAsync,
@@ -26,8 +26,9 @@ import {
   useLocation
 } from "react-router-dom";
 
-import User from './screens/App/screens/User/components/User'
-import Counter from './screens/App/screens/Counter/components/Counter'
+
+import User from './screens/App/screens/User/components'
+import Counter from './screens/App/screens/Counter/components'
 
 import PrivateRoute from './shared/auth/screens/Auth/components/PrivateRoute'
 

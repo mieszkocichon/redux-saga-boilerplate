@@ -1,3 +1,5 @@
+import { LOGIN_ACTIONS } from '../../actions/Login'
+
 const initialUserState = {
   login: {
     name: '',
@@ -7,9 +9,9 @@ const initialUserState = {
 
 export default function login(state = initialUserState, action) {
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
+    case LOGIN_ACTIONS.LOGIN:
       console.log('U are log in!')
-    case 'LOGOUT':
+    case LOGIN_ACTIONS.LOGOUT:
       console.log('U are log out!')
     default:
       return state;
